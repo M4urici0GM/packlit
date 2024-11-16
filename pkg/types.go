@@ -20,19 +20,25 @@ type ShakaFlag interface {
 }
 
 type ShakaRunner struct {
-	binary        string
-	flags         *ShakaOptions
-	streamOptions []*StreamOptions
+    // Location of the binary executable of Shaka-Packager.
+    // Ex: /bin/packager
+	Binary        string
+    
+    // Flags to be used when running Shaka-Packager
+	Flags         *ShakaOptions
+
+    // Stream descriptors.
+	StreamOptions []*StreamOptions
 }
 
 type ShakaOptions struct {
-	flags []ShakaFlag
+	Flags []ShakaFlag
 }
 
 func (s *ShakaOptions) Add(flag ShakaFlag) {
-	s.flags = append(s.flags, flag)
+	s.Flags = append(s.Flags, flag)
 }
 
 type StreamOptions struct {
-	options []StreamOption
+	Options []StreamOption
 }

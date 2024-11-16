@@ -3,7 +3,7 @@ package gaka
 import "strings"
 
 func NewStreamDescriptor(opts ...StreamOpt) *StreamOptions {
-	streamOptions := &StreamOptions{options: make([]StreamOption, 0)}
+	streamOptions := &StreamOptions{Options: make([]StreamOption, 0)}
 	for _, fn := range opts {
 		fn(streamOptions)
 	}
@@ -64,5 +64,5 @@ func (r *ShakaRunner) Run() error {
 }
 
 func (d *StreamOptions) Add(flag StreamOption) {
-	d.options = append(d.options, flag)
+	d.Options = append(d.Options, flag)
 }

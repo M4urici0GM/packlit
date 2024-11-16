@@ -10,7 +10,7 @@ import (
 // Se its tests for more information
 func buildStreamDescriptor(descriptor *StreamOptions) (string, error) {
 	flags := make([]string, 0)
-	for _, f := range descriptor.options {
+	for _, f := range descriptor.Options {
 		if err := f.Validate(); err != nil {
 			return "", err
 		}
