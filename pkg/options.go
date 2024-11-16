@@ -7,9 +7,10 @@ import (
 )
 
 // builds the given stream descritpor into its string version.
-func buildStreamDescriptor(descriptor *StreamDescriptor) (string, error) {
+// Se its tests for more information
+func buildStreamDescriptor(descriptor *StreamOptions) (string, error) {
 	flags := make([]string, 0)
-	for _, f := range descriptor.flags {
+	for _, f := range descriptor.options {
 		if err := f.Validate(); err != nil {
 			return "", err
 		}

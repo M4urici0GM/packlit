@@ -8,8 +8,8 @@ import (
 
 func TestBuildStreamSelector(t *testing.T) {
 	// given
-	descriptor := &StreamDescriptor{
-		flags: []StreamDescriptorFlag{},
+	descriptor := &StreamOptions{
+		options: []StreamOption{},
 	}
 
 	WithInput("some_content.mp4")(descriptor)

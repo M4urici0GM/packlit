@@ -1,49 +1,68 @@
 package gaka
 
-import "fmt"
+import "strings"
 
-type StreamDescriptorFlag interface {
-	fmt.Stringer
+func NewStreamDescriptor(opts ...StreamOpt) *StreamOptions {
+	streamOptions := &StreamOptions{options: make([]StreamOption, 0)}
+	for _, fn := range opts {
+		fn(streamOptions)
+	}
 
-	// Validate given flag.
-	Validate() error
+	return streamOptions
 }
 
-type StreamDescriptor struct {
-	flags []StreamDescriptorFlag
+func NewShakaOptions(opts ...ShakaOpt) *ShakaOptions {
+	options := &ShakaOptions{flags: make([]ShakaFlag, 0)}
+	for _, fn := range opts {
+		fn(options)
+	}
+
+	return options
 }
 
-func (d *StreamDescriptor) Add(flag StreamDescriptorFlag) {
-	d.flags = append(d.flags, flag)
-}
+func NewRunner(binary string) *ShakaRunner {
+	if binary == "" {
+		binary = "/bin/packager"
+	}
 
-func WithInput(input string) func(*StreamDescriptor) {
-	return func(sd *StreamDescriptor) {
-        sd.Add(InputSelector(input))
+	return &ShakaRunner{
+		binary:        binary,
+		flags:         &ShakaOptions{},
+		streamOptions: make([]*StreamOptions, 0),
 	}
 }
 
-func WithStream(stream string) func(*StreamDescriptor) {
-	return func(sd *StreamDescriptor) {
-		sd.Add(StreamSelector(stream))
+func buildFlags(flags *ShakaOptions) (string, error) {
+	built := make([]string, 0)
+	for _, flag := range flags.flags {
+		if err := flag.Validate(); err != nil {
+			return "", err
+		}
+
+		built = append(built, flag.String())
 	}
+
+	return strings.Join(built, " "), nil
 }
 
-// Adds flag ouput to the stream descriptor.
-// Example:
-// gaka.WithOutput('file.mp4') will produce a stream descriptor '...output=file.mp4' 
-func WithOutput(output string) func(*StreamDescriptor) {
-	return func(sd *StreamDescriptor) {
-        sd.Add(OutputSelector(output))
+func buildStreamDescriptors(descriptors ...*StreamOptions) (string, error) {
+	built := make([]string, 0)
+	for _, desc := range descriptors {
+		builtDesc, err := buildStreamDescriptor(desc)
+		if err != nil {
+			return "", err
+		}
+
+		built = append(built, builtDesc)
 	}
+
+	return strings.Join(built, " "), nil
 }
 
-func NewStreamDescriptor(...func(*StreamDescriptor)) *StreamDescriptor {
-	return &StreamDescriptor{
-		flags: make([]StreamDescriptorFlag, 0),
-	}
-}
-
-func Run(...*StreamDescriptor) error {
+func (r *ShakaRunner) Run() error {
 	panic("implement me.")
+}
+
+func (d *StreamOptions) Add(flag StreamOption) {
+	d.options = append(d.options, flag)
 }
