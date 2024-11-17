@@ -82,7 +82,7 @@ func main() {
 }
 ```
 
-You can achieve the same result as the abote with
+You can achieve the same result as the above with
 ```go
 func buildDescriptors() []*packlit.StreamOptions {
 	return []*packlit.StreamOptions{
