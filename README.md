@@ -1,4 +1,4 @@
-#  Packlit
+# Packlit
 [![Go](https://github.com/moul/golang-repo-template/workflows/Go/badge.svg)](https://github.com/m4urici0gm/packlit/actions?query=workflow%3AGo)
 [![GitHub License](https://img.shields.io/github/license/m4urici0gm/packlit)](https://github.com/M4urici0GM/packlit/blob/main/LICENSE)
 [![Made By Mauricio Barbosa](https://img.shields.io/badge/made%20by-Mauricio%20Barbosa-blue.svg?style=flat)](https://mourice.dev)
@@ -10,16 +10,12 @@ you can integrate powerful media packaging capabilities into your Go application
 supporting formats like DASH and HLS with encryption and DRM.
 
 ## Warning
-Not all features of Shaka-packer is yet implemented.
-If you need a descriptor or a flag that is not implemented yet, you can implement your own, (Or open a PR, please)
-Take a loook at `examples/custom_descriptor` to see how to implement a custom descriptor, and in `examples/custom_flag` to
-see more information.
-Feel free to implement flags/descriptor as you wish.
+Packlit is actively being developed, and not all features of Shaka Packager are yet implemented.
+If you need a missing feature, feel free to implement it yourself or submit a pull request.
+If required, take a look at `examples/` how to implement a custom flag or stream descriptor option.
 
 ## Features
 - Easy integration with Shaka Packager CLI
-- Support for packaging DASH and HLS formats
-- DRM support for Widevine, PlayReady, and FairPlay
 - Simplified API for common use cases
 - Highly customizable for advanced workflows
 
@@ -42,11 +38,11 @@ $ packager input=some_content.mp4 --dump_stream_info
 ```
 ```go
 func main() {
-	opts := packlit.NewShakaOptions(packlit.WithDumpStream())
-	runner := packlit.NewBuilder().
-		WithStream(packlit.NewStreamDescriptor(packlit.WithInput("some_content.mp4")))).
-		WithFlag(opts).
-		Build()
+    opts := packlit.NewShakaOptions(packlit.WithDumpStream())
+    runner := packlit.NewBuilder().
+        WithStream(packlit.NewStreamDescriptor(packlit.WithInput("some_content.mp4")))).
+        WithFlag(opts).
+        Build()
 
     if err := runner.Run(); err != nil {
         fmt.Fatalf("error when running shaka-packager: %v", err)
@@ -111,7 +107,7 @@ func buildDescriptors() []*packlit.StreamOptions {
 				packlit.StreamSelector("text"),
 				packlit.OutputSelector("output_text.vtt"),
 		}},
-        ...
+        // Add more descriptor as needed.
 	}
 }
 
