@@ -26,7 +26,7 @@ Feel free to implement flags/descriptor as you wish.
 To install Packlit, use:
 
 ```bash
-$ go get github.com/yourusername/packlit  
+$ go get github.com/m4urici0gm/packlit  
 ```
 
 ## How to use
