@@ -21,14 +21,14 @@ func TestBuildDescriptors(t *testing.T) {
 	// given
 	opts := []*StreamOptions{
 		{
-			[]StreamOption{
+			[]OptionParser{
 				InputSelector("file.mp4"),
 				StreamSelector("audio"),
 				OutputSelector("audio.mp4"),
 			},
 		},
 		{
-			[]StreamOption{
+			[]OptionParser{
 				InputSelector("file.mp4"),
 				StreamSelector("video"),
 				OutputSelector("video.mp4"),
@@ -48,7 +48,7 @@ func TestBuildDescriptorWithInvalid(t *testing.T) {
 	// given
 	opts := []*StreamOptions{
 		{
-			[]StreamOption{
+			[]OptionParser{
 				InputSelector("file.mp4"),
 				StreamSelector("invalid-stream-selector"),
 				OutputSelector("audio.mp4"),
@@ -66,8 +66,8 @@ func TestBuildDescriptorWithInvalid(t *testing.T) {
 
 func TestBuildFlags(t *testing.T) {
 	// given
-	flags := &ShakaOptions{
-		Flags: []ShakaFlag{
+	flags := &ShakaFlags{
+		Flags: []OptionParser{
 			MpdOutput("file.mpd"),
 			GenerateStaticLiveMpd{},
 		},
@@ -87,14 +87,14 @@ func TestShouldTransmuxCorrectly(t *testing.T) {
 	// given
 	opts := []*StreamOptions{
 		{
-			[]StreamOption{
+			[]OptionParser{
 				InputSelector("/var/input/proof.mp4"),
 				StreamSelector("audio"),
 				OutputSelector("/var/media/audio.mp4"),
 			},
 		},
 		{
-			[]StreamOption{
+			[]OptionParser{
 				InputSelector("/var/input/proof.mp4"),
 				StreamSelector("video"),
 				OutputSelector("/var/media/video.mp4"),
@@ -104,7 +104,7 @@ func TestShouldTransmuxCorrectly(t *testing.T) {
 
 	runner := &ShakaRunner{
 		StreamOptions: opts,
-		Flags:         &ShakaOptions{},
+		Flags:         &ShakaFlags{},
 	}
 
 	// Build descriptors

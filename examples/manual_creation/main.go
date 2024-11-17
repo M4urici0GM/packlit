@@ -9,14 +9,14 @@ import (
 func buildDescriptors() []*packlit.StreamOptions {
 	return []*packlit.StreamOptions{
 		{
-			Options: []packlit.StreamOption{
+			Options: []packlit.OptionParser{
 				packlit.InputSelector("file.mp4"),
 				packlit.StreamSelector("audio"),
 				packlit.OutputSelector("audio.mp4"),
 			},
 		},
 		{
-			Options: []packlit.StreamOption{
+			Options: []packlit.OptionParser{
 				packlit.InputSelector("file.mp4"),
 				packlit.StreamSelector("video"),
 				packlit.OutputSelector("video.mp4"),
@@ -25,9 +25,9 @@ func buildDescriptors() []*packlit.StreamOptions {
 	}
 }
 
-func buildFlags() *packlit.ShakaOptions {
-	return &packlit.ShakaOptions{
-		Flags: []packlit.ShakaFlag{
+func buildFlags() *packlit.ShakaFlags {
+	return &packlit.ShakaFlags{
+		Flags: []packlit.OptionParser{
 			packlit.GenerateStaticLiveMpd{},
 		},
 	}

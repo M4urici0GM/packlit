@@ -2,8 +2,8 @@ package packlit
 
 import "strings"
 
-func NewStreamDescriptor(opts ...StreamOpt) *StreamOptions {
-	streamOptions := &StreamOptions{Options: make([]StreamOption, 0)}
+func NewStreamDescriptor(opts ...StreamDescriptorFn) *StreamOptions {
+	streamOptions := &StreamOptions{Options: make([]OptionParser, 0)}
 	for _, fn := range opts {
 		fn(streamOptions)
 	}
@@ -11,8 +11,8 @@ func NewStreamDescriptor(opts ...StreamOpt) *StreamOptions {
 	return streamOptions
 }
 
-func NewShakaOptions(opts ...ShakaOpt) *ShakaOptions {
-	options := &ShakaOptions{Flags: make([]ShakaFlag, 0)}
+func NewFlags(opts ...ShakaFlagFn) *ShakaFlags {
+	options := &ShakaFlags{Flags: make([]OptionParser, 0)}
 	for _, fn := range opts {
 		fn(options)
 	}
@@ -27,12 +27,12 @@ func NewRunner(binary string) *ShakaRunner {
 
 	return &ShakaRunner{
 		Binary:        binary,
-		Flags:         &ShakaOptions{},
+		Flags:         &ShakaFlags{},
 		StreamOptions: make([]*StreamOptions, 0),
 	}
 }
 
-func buildFlags(flags *ShakaOptions) (string, error) {
+func buildFlags(flags *ShakaFlags) (string, error) {
 	built := make([]string, 0)
 	for _, flag := range flags.Flags {
 		if err := flag.Validate(); err != nil {
@@ -63,6 +63,6 @@ func (r *ShakaRunner) Run() error {
 	panic("implement me.")
 }
 
-func (d *StreamOptions) Add(flag StreamOption) {
+func (d *StreamOptions) Add(flag OptionParser) {
 	d.Options = append(d.Options, flag)
 }

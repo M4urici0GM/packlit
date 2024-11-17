@@ -21,7 +21,7 @@ func (m MyCustomDescritor) Validate() error {
 }
 
 // Wrap your custom descriptor into a func.
-func WithCustomDescritpor(val string) packlit.StreamOpt {
+func WithCustomDescritpor(val string) packlit.StreamDescriptorFn {
 	return func(so *packlit.StreamOptions) {
 		so.Add(MyCustomDescritor(val))
 	}

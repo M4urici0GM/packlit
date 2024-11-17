@@ -10,7 +10,7 @@ func NewBuilder() *ShakaRunnerBuilder {
 	}
 }
 
-func (b *ShakaRunnerBuilder) WithFlag(flag *ShakaOptions) *ShakaRunnerBuilder {
+func (b *ShakaRunnerBuilder) WithFlag(flag *ShakaFlags) *ShakaRunnerBuilder {
 	b.runner.Flags = flag
 	return b
 }

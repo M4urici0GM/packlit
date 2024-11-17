@@ -1,4 +1,4 @@
-package packlit 
+package packlit
 
 import "fmt"
 
@@ -14,8 +14,8 @@ func (m MpdOutput) Validate() error {
 	return nil
 }
 
-func WithMpdOutput(output string) func(*ShakaOptions) {
-	return func(so *ShakaOptions) {
+func WithMpdOutput(output string) func(*ShakaFlags) {
+	return func(so *ShakaFlags) {
 		so.Add(MpdOutput(output))
 	}
 }
@@ -32,4 +32,20 @@ func (g GenerateStaticLiveMpd) String() string {
 
 func (g GenerateStaticLiveMpd) Validate() error {
 	return nil
+}
+
+type DumpStreamInfo struct{}
+
+func (g DumpStreamInfo) String() string {
+	return "--dump_stream_info"
+}
+
+func (g DumpStreamInfo) Validate() error {
+	return nil
+}
+
+func WithDumpStream() ShakaFlagFn {
+	return func(so *ShakaFlags) {
+		so.Add(DumpStreamInfo{})
+	}
 }

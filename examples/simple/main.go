@@ -12,7 +12,7 @@ func main() {
 	//            in=some_content.mp4,stream=audio,out=audio.mp4 \
     //      --mpd_output=file.mpd
 
-	opts := packlit.NewShakaOptions(packlit.WithMpdOutput("file.mpd"))
+	opts := packlit.NewFlags(packlit.WithMpdOutput("file.mpd"))
 	runner := packlit.NewBuilder().
 		WithStream(packlit.NewStreamDescriptor(packlit.WithInput("some_content.mp4"), packlit.WithStream("video"), packlit.WithOutput("video.mp4"))).
 		WithStream(packlit.NewStreamDescriptor(packlit.WithInput("some_content.mp4"), packlit.WithStream("audio"), packlit.WithOutput("audio.mp4"))).

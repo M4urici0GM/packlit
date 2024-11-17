@@ -9,7 +9,7 @@ import (
 func TestBuildStreamSelector(t *testing.T) {
 	// given
 	descriptor := &StreamOptions{
-		Options: []StreamOption{},
+		Options: []OptionParser{},
 	}
 
 	WithInput("some_content.mp4")(descriptor)
