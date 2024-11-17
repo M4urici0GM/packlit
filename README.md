@@ -1,4 +1,9 @@
 # Packlit
+[![Go](https://github.com/moul/golang-repo-template/workflows/Go/badge.svg)](https://github.com/moul/golang-repo-template/actions?query=workflow%3AGo)
+[![GitHub License](https://img.shields.io/github/license/m4urici0gm/packlit)](https://github.com/M4urici0GM/packlit/blob/main/LICENSE)
+[![Made By Mauricio Barbosa](https://img.shields.io/badge/made%20by-Mauricio%20Barbosa-blue.svg?style=flat)](https://mourice.dev)
+
+
 Packlit is a Golang library providing easy-to-use bindings for Shaka Packager,
 enabling streamlined video and audio packaging workflows. With Packlit,
 you can integrate powerful media packaging capabilities into your Go applications,
