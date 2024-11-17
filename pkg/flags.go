@@ -1,6 +1,22 @@
 package packlit
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
+
+func buildFlags(flags *ShakaFlags) (string, error) {
+	built := make([]string, 0)
+	for _, flag := range flags.Flags {
+		if err := flag.Validate(); err != nil {
+			return "", err
+		}
+
+		built = append(built, flag.String())
+	}
+
+	return strings.Join(built, " "), nil
+}
 
 // MPD output file name.
 // Equivalent to --mpd_output=file.mpd
@@ -12,12 +28,6 @@ func (m MpdOutput) String() string {
 
 func (m MpdOutput) Validate() error {
 	return nil
-}
-
-func WithMpdOutput(output string) func(*ShakaFlags) {
-	return func(so *ShakaFlags) {
-		so.Add(MpdOutput(output))
-	}
 }
 
 // If enabled, generates static mpd.
@@ -42,10 +52,4 @@ func (g DumpStreamInfo) String() string {
 
 func (g DumpStreamInfo) Validate() error {
 	return nil
-}
-
-func WithDumpStream() ShakaFlagFn {
-	return func(so *ShakaFlags) {
-		so.Add(DumpStreamInfo{})
-	}
 }

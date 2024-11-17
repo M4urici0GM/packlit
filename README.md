@@ -11,16 +11,16 @@ supporting formats like DASH and HLS with encryption and DRM.
 - Simplified API for common use cases
 - Highly customizable for advanced workflows
 
+## Prerequisites
+- Shaka Packager installed and available in your system's PATH
+- Go version 1.18 or later
+
 ## Installation
 To install Packlit, use:
 
 ```bash
 $ go get github.com/yourusername/packlit  
 ```
-
-## Prerequisites
-- Shaka Packager installed and available in your system's PATH
-- Go version 1.18 or later
 
 ## How to use
 
@@ -46,39 +46,42 @@ func main() {
 ```go
 
 func main() {
-	opts := packlit.NewShakaFlags(packlit.WithMpdOutput("h264.mpd"))
+	opts := packlit.NewFlags(packlit.WithMpdOutput("h264.mpd"))
 	runner := packlit.NewBuilder().
-        WithStream(packlit.NewStreamDescriptor(
-            packlit.WithInput("h264_baseline_360p_600.mp4"),
-            packlit.WithStream("audio"),
-            packlit.WithOutput("audio.mp4")
-        ))).
-        WithStream(packlit.NewStreamDescriptor(
-            packlit.WithInput("input_text.vtt"),
-            packlit.WithStream("text"),
-            packlit.WithOutput("output_text.vtt")
-        ))).
-        WithStream(packlit.NewStreamDescriptor(
-            packlit.WithInput("h264_main_480p_1000.mp4"),
-            packlit.WithStream("video"),
-            packlit.WithOutput("h264_480p.mp4")
-        ))).
-        WithStream(packlit.NewStreamDescriptor(
-            packlit.WithInput("h264_main_720p_3000.mp4"),
-            packlit.WithStream("video"),
-            packlit.WithOutput("h264_720p.mp4")
-        ))).
-        WithStream(packlit.NewStreamDescriptor(
-            packlit.WithInput("h264_high_1080p_6000.mp4"),
-            packlit.WithStream("video"),
-            packlit.WithOutput("h264_1080p.mp4")
-        ))).
-        WithFlag(opts).
-        Build()
+		WithStream(
+			packlit.NewStreamBuilder().
+				WithInput("h264_baseline_360p_600.mp4").
+				WithStream(packlit.StreamTypeAudio).
+				WithOutput("audio.mp4").
+				Build(),
+		).
+		WithStream(
+			packlit.NewStreamBuilder().
+				WithInput("h264_main_480p_1000.mp4").
+				WithStream(packlit.StreamTypeVideo).
+				WithOutput("h264_480p.mp4").
+				Build(),
+		).
+		WithStream(
+			packlit.NewStreamBuilder().
+				WithInput("h264_main_720p_3000.mp4").
+				WithStream(packlit.StreamTypeVideo).
+				WithOutput("h264_720p.mp4").
+				Build(),
+		).
+		WithStream(
+			packlit.NewStreamBuilder().
+				WithInput("h264_high_1080p_6000.mp4").
+				WithStream(packlit.StreamTypeVideo).
+				WithOutput("h264_1080p.mp4").
+				Build(),
+		).
+		WithFlag(opts).
+		Build()
 
-    if err := runner.Run(); err != nil {
-        fmt.Fatalf("error when running shaka-packager: %v", err)
-    }
+	if err := runner.Run(); err != nil {
+		log.Fatalf("error when running shaka-packager: %v", err)
+	}
 }
 ```
 

@@ -1,10 +1,25 @@
-package packlit 
+package packlit
 
 import (
 	"fmt"
 	"strconv"
 	"strings"
 )
+
+// Build the list of StreamOptions into a slice of strings.
+func buildStreamDescriptors(descriptors ...*StreamOptions) ([]string, error) {
+	built := make([]string, 0)
+	for _, desc := range descriptors {
+		builtDesc, err := buildStreamDescriptor(desc)
+		if err != nil {
+			return nil, err
+		}
+
+		built = append(built, builtDesc)
+	}
+
+	return built, nil
+}
 
 // builds the given stream descritpor into its string version.
 // Se its tests for more information

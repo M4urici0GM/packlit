@@ -38,3 +38,4 @@ func (s *ShakaRunner) Args() ([]string, string, error) {
 
 	return streamOptions, flags, nil
 }
+

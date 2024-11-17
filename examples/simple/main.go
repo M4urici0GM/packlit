@@ -10,12 +10,24 @@ func main() {
 	// Equivalent to
 	// $ packager in=some_content.mp4,stream=video,out=video.mp4 \
 	//            in=some_content.mp4,stream=audio,out=audio.mp4 \
-    //      --mpd_output=file.mpd
+	//      --mpd_output=file.mpd
 
 	opts := packlit.NewFlags(packlit.WithMpdOutput("file.mpd"))
 	runner := packlit.NewBuilder().
-		WithStream(packlit.NewStreamDescriptor(packlit.WithInput("some_content.mp4"), packlit.WithStream("video"), packlit.WithOutput("video.mp4"))).
-		WithStream(packlit.NewStreamDescriptor(packlit.WithInput("some_content.mp4"), packlit.WithStream("audio"), packlit.WithOutput("audio.mp4"))).
+		WithStream(
+			packlit.NewStreamBuilder().
+				WithInput("some_content.mp4").
+				WithStream("video").
+				WithOutput("video.mp4").
+				Build(),
+		).
+		WithStream(
+			packlit.NewStreamBuilder().
+				WithInput("some_content.mp4").
+				WithStream("audio").
+				WithOutput("audio.mp4").
+				Build(),
+		).
 		WithFlag(opts).
 		Build()
 
