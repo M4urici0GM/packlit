@@ -12,7 +12,7 @@ import (
 
 func main() {
 	opts := packlit.NewFlags(packlit.WithMpdOutput("h264.mpd"))
-	runner := packlit.NewBuilder().
+	packager := packlit.NewBuilder().
 		WithStream(
 			packlit.NewStreamBuilder().
 				WithInput("h264_baseline_360p_600.mp4").
@@ -44,7 +44,8 @@ func main() {
 		WithFlag(opts).
 		Build()
 
-	if err := runner.Run(); err != nil {
+	packagerExecutor := packlit.NewExecutor(packager)
+	if err := packagerExecutor.Run(); err != nil {
 		log.Fatalf("error when running shaka-packager: %v", err)
 	}
 }
