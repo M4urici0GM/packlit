@@ -1,7 +1,11 @@
+// Copyright 2024 Mauricio Barbosa. All rights reserved.
+// Use of this source code is governed by a LGPL
+// license that can be found in the LICENSE file.
+
 package packlit
 
 type ShakaRunnerBuilder struct {
-	runner *ShakaRunner
+	runner *ShakaPackager
 }
 
 func NewBuilder() *ShakaRunnerBuilder {
@@ -21,11 +25,11 @@ func (b *ShakaRunnerBuilder) WithStream(streamOption *StreamOptions) *ShakaRunne
 	return b
 }
 
-func (b *ShakaRunnerBuilder) Build() *ShakaRunner {
+func (b *ShakaRunnerBuilder) Build() *ShakaPackager {
 	return b.runner
 }
 
-func (s *ShakaRunner) Args() ([]string, string, error) {
+func (s *ShakaPackager) Args() ([]string, string, error) {
 	streamOptions, err := buildStreamDescriptors(s.StreamOptions...)
 	if err != nil {
 		return nil, "", err

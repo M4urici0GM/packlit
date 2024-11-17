@@ -1,3 +1,7 @@
+// Copyright 2024 Mauricio Barbosa. All rights reserved.
+// Use of this source code is governed by a LGPL
+// license that can be found in the LICENSE file.
+
 package packlit 
 
 import (
@@ -102,7 +106,7 @@ func TestShouldTransmuxCorrectly(t *testing.T) {
 		},
 	}
 
-	runner := &ShakaRunner{
+	runner := &ShakaPackager{
 		StreamOptions: opts,
 		Flags:         &ShakaFlags{},
 	}

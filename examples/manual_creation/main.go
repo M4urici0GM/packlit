@@ -1,3 +1,7 @@
+// Copyright 2024 Mauricio Barbosa. All rights reserved.
+// Use of this source code is governed by a LGPL
+// license that can be found in the LICENSE file.
+
 package main
 
 import (
@@ -37,7 +41,7 @@ func main() {
 	descriptors := buildDescriptors()
 	flags := buildFlags()
 
-	runner := packlit.ShakaRunner{
+	runner := packlit.ShakaPackager{
 		StreamOptions: descriptors,
 		Flags:         flags,
 	}
