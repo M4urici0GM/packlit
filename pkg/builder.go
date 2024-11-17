@@ -10,7 +10,7 @@ type ShakaRunnerBuilder struct {
 
 func NewBuilder() *ShakaRunnerBuilder {
 	return &ShakaRunnerBuilder{
-		runner: NewRunner(""),
+		runner: NewShakaPackager(""),
 	}
 }
 

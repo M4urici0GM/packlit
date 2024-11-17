@@ -5,8 +5,6 @@
 package packlit
 
 // Adds option 'input' to the stream descriptor.
-// Example:
-// gaka.WithInput('file.mp4') will produce a stream descriptor '...input=file.mp4'
 func WithInput(input string) StreamDescriptorFn {
 	return func(sd *StreamOptions) {
 		sd.Add(InputSelector(input))
@@ -14,8 +12,6 @@ func WithInput(input string) StreamDescriptorFn {
 }
 
 // Adds option 'stream' to the stream descriptor.
-// Example:
-// gaka.WithStream('file.mp4') will produce a stream descriptor '...stream=audio|video|text|0..'
 func WithStream(stream StreamType) StreamDescriptorFn {
 	return func(sd *StreamOptions) {
 		sd.Add(StreamSelector(stream))
@@ -23,8 +19,6 @@ func WithStream(stream StreamType) StreamDescriptorFn {
 }
 
 // Adds option 'ouput' to the stream descriptor.
-// Example:
-// gaka.WithOutput('file.mp4') will produce a stream descriptor '...output=file.mp4'
 func WithOutput(output string) func(*StreamOptions) {
 	return func(sd *StreamOptions) {
 		sd.Add(OutputSelector(output))
@@ -38,12 +32,14 @@ func WithStaticLiveMpd() StreamDescriptorFn {
 	}
 }
 
+// Adds flag '--mpd_output <name>'
 func WithMpdOutput(output string) func(*ShakaFlags) {
 	return func(so *ShakaFlags) {
 		so.Add(MpdOutput(output))
 	}
 }
 
+// Adds flag '--dump_stream_info'
 func WithDumpStream() ShakaFlagFn {
 	return func(so *ShakaFlags) {
 		so.Add(DumpStreamInfo{})

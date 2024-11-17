@@ -7,24 +7,40 @@ package packlit
 import (
 	"bufio"
 	"context"
-	"fmt"
 	"io"
 	"log"
 	"os"
 	"os/exec"
 )
 
-type ShakaExecutor struct {
-	shaka  *ShakaPackager
-	logger *log.Logger
+type CommandRunner interface {
+	CommandContext(context.Context, string, ...string) *exec.Cmd
 }
 
+type NativeCommandRunner struct{}
+
+func (n *NativeCommandRunner) CommandContext(ctx context.Context, name string, args ...string) *exec.Cmd {
+	return exec.CommandContext(ctx, name, args...)
+}
+
+type ShakaExecutor struct {
+	shaka         *ShakaPackager
+	logger        *log.Logger
+	commandRunner CommandRunner
+}
+
+// Creates new executor.
+// If logger is nil, it will create a new one with prefix [packlit]
 func NewExecutor(shaka *ShakaPackager, logger *log.Logger) *ShakaExecutor {
 	if logger == nil {
 		logger = log.New(os.Stdout, "[packlit] ", log.LstdFlags)
 	}
 
-	return &ShakaExecutor{shaka, logger}
+	return &ShakaExecutor{
+		shaka:         shaka,
+		logger:        logger,
+		commandRunner: &NativeCommandRunner{},
+	}
 }
 
 func (e *ShakaExecutor) RunWithContext(ctx context.Context) error {
@@ -40,7 +56,7 @@ func (e *ShakaExecutor) Run() error {
 	return e.RunWithContext(context.Background())
 }
 
-func (e *ShakaExecutor) RunAsync(ctx context.Context) (chan<- error, error) {
+func (e *ShakaExecutor) RunAsync(ctx context.Context) (<-chan error, error) {
 	args, err := e.shaka.BuildAndValidate()
 	if err != nil {
 		return nil, err
@@ -50,6 +66,7 @@ func (e *ShakaExecutor) RunAsync(ctx context.Context) (chan<- error, error) {
 
 	go func() {
 		defer close(errorChn)
+
 		select {
 		case <-ctx.Done():
 			errorChn <- ctx.Err()
@@ -73,11 +90,10 @@ func readLog(reader io.Reader, fn func(string)) error {
 	}
 
 	return scanner.Err()
-
 }
 
 func (e *ShakaExecutor) runShaka(ctx context.Context, binaryPath string, args []string) error {
-	cmd := exec.CommandContext(ctx, binaryPath, args...)
+	cmd := e.commandRunner.CommandContext(ctx, binaryPath, args...)
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
@@ -89,25 +105,22 @@ func (e *ShakaExecutor) runShaka(ctx context.Context, binaryPath string, args []
 		return err
 	}
 
+	err = cmd.Start()
+	if err != nil {
+		log.Fatalf("failed to start command: %v", err)
+	}
+
 	go func() {
-		err := readLog(stdout, func(msg string) {
+		_ = readLog(stdout, func(msg string) {
 			log.Printf("[debug] %s", msg)
 		})
-
-		if err != nil {
-			log.Println(fmt.Errorf("error reading stdout: %v", err))
-		}
 	}()
 
 	go func() {
-		err := readLog(stderr, func(msg string) {
+		_ = readLog(stderr, func(msg string) {
 			log.Printf("[stderr] %s", msg)
 		})
-
-		if err != nil {
-			log.Println(fmt.Errorf("error reading stderr: %v", err))
-		}
 	}()
 
-	return cmd.Run()
+	return cmd.Wait()
 }

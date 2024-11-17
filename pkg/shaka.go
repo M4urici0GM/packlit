@@ -59,7 +59,7 @@ type ShakaPackager struct {
 	StreamOptions []*StreamOptions
 }
 
-func NewRunner(binary string) *ShakaPackager {
+func NewShakaPackager(binary string) *ShakaPackager {
 	if binary == "" {
 		binary = "/bin/packager"
 	}
