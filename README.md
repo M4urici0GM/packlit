@@ -141,3 +141,20 @@ Packlit is licensed under the MIT License. See LICENSE for more details.
 
 ## Acknowledgements
 Packlit is built around the excellent Shaka Packager project.
+
+## License
+```
+This file is part of Packlit
+                                                                     
+Packlit is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation,
+                                                                     
+Packlit is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Lesser General Public License for more details.
+                                                                     
+You should have received a copy of the GNU Lesser General Public License
+along with Packlit. If not, see <http://www.gnu.org/licenses/>.
+```
