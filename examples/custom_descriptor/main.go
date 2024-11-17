@@ -9,8 +9,11 @@ import (
 
 type MyCustomDescritor string
 
+// Compile-time check for interface.
+var _ packlit.ShakaParser = (*MyCustomDescritor)(nil)
+
 // Implement fmt.Stringer interface
-func (m MyCustomDescritor) String() string {
+func (m MyCustomDescritor) Parse() string {
 	return fmt.Sprintf("my_custom_descriptor=%s", string(m))
 }
 

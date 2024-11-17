@@ -9,7 +9,7 @@ import (
 func TestBuildStreamSelector(t *testing.T) {
 	// given
 	descriptor := &StreamOptions{
-		Options: []OptionParser{},
+		Options: []ShakaParser{},
 	}
 
 	WithInput("some_content.mp4")(descriptor)
@@ -30,7 +30,7 @@ func TestInputFormat(t *testing.T) {
 	input := InputSelector("file.mp4")
 
 	// when
-	str := input.String()
+	str := input.Parse()
 
 	// then
 	assert.Equal(t, "input=file.mp4", str)
@@ -52,7 +52,7 @@ func TestStreamSelectorFormat(t *testing.T) {
 	selector := StreamSelector("audio")
 
 	// when
-	result := selector.String()
+	result := selector.Parse()
 
 	// then
 	assert.Equal(t, "stream_selector=audio", result)

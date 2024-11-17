@@ -12,7 +12,7 @@ func buildFlags(flags *ShakaFlags) (string, error) {
 			return "", err
 		}
 
-		built = append(built, flag.String())
+		built = append(built, flag.Parse())
 	}
 
 	return strings.Join(built, " "), nil
@@ -22,7 +22,7 @@ func buildFlags(flags *ShakaFlags) (string, error) {
 // Equivalent to --mpd_output=file.mpd
 type MpdOutput string
 
-func (m MpdOutput) String() string {
+func (m MpdOutput) Parse() string {
 	return fmt.Sprintf("--mpd_output=%s", string(m))
 }
 
@@ -36,7 +36,7 @@ func (m MpdOutput) Validate() error {
 // Note that if segment_template is not specified, shaka-packager always generates static mpd regardless of the value of this flag.
 type GenerateStaticLiveMpd struct{}
 
-func (g GenerateStaticLiveMpd) String() string {
+func (g GenerateStaticLiveMpd) Parse() string {
 	return "--generate_static_live_mpd"
 }
 
@@ -44,9 +44,10 @@ func (g GenerateStaticLiveMpd) Validate() error {
 	return nil
 }
 
+// Shaka Packager can be used to inspect the content of a media file and dump basic stream.
 type DumpStreamInfo struct{}
 
-func (g DumpStreamInfo) String() string {
+func (g DumpStreamInfo) Parse() string {
 	return "--dump_stream_info"
 }
 

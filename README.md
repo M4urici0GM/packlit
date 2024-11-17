@@ -4,6 +4,13 @@ enabling streamlined video and audio packaging workflows. With Packlit,
 you can integrate powerful media packaging capabilities into your Go applications,
 supporting formats like DASH and HLS with encryption and DRM.
 
+## Warning
+Not all features of Shaka-packer is yet implemented.
+If you need a descriptor or a flag that is not implemented yet, you can implement your own, (Or open a PR, please)
+Take a loook at `examples/custom_descriptor` to see how to implement a custom descriptor, and in `examples/custom_flag` to
+see more information.
+Feel free to implement flags/descriptor as you wish.
+
 ## Features
 - Easy integration with Shaka Packager CLI
 - Support for packaging DASH and HLS formats

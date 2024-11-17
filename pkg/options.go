@@ -30,7 +30,7 @@ func buildStreamDescriptor(descriptor *StreamOptions) (string, error) {
 			return "", err
 		}
 
-		flags = append(flags, f.String())
+		flags = append(flags, f.Parse())
 	}
 
 	return strings.Join(flags, ","), nil
@@ -40,7 +40,7 @@ func buildStreamDescriptor(descriptor *StreamOptions) (string, error) {
 // See https://shaka-project.github.io/shaka-packager/html/options/udp_file_options.html on additional options for UDP files.
 type InputSelector string
 
-func (i InputSelector) String() string {
+func (i InputSelector) Parse() string {
 	return fmt.Sprintf("input=%s", string(i))
 }
 
@@ -55,7 +55,7 @@ func (i InputSelector) Validate() error {
 // Required field with value ‘audio’, ‘video’, ‘text’ or stream number (zero based).
 type StreamSelector string
 
-func (s StreamSelector) String() string {
+func (s StreamSelector) Parse() string {
 	return fmt.Sprintf("stream_selector=%s", string(s))
 }
 
@@ -84,7 +84,7 @@ func (s StreamSelector) Validate() error {
 // Required output file path (single file).
 type OutputSelector string
 
-func (o OutputSelector) String() string {
+func (o OutputSelector) Parse() string {
 	return fmt.Sprintf("output=%s", string(o))
 }
 

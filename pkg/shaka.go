@@ -17,10 +17,9 @@ const (
 
 // Wrapper around the fmt.Sprinter with Validate method
 // Used for making sure that the provided value is correct.
-type OptionParser interface {
-	fmt.Stringer
-
+type ShakaParser interface {
 	Validate() error
+	Parse() string
 }
 
 // Represents a function that can add a new option to a given StremaOption
@@ -44,7 +43,7 @@ type StreamDescriptorFn = func(*StreamOptions)
 type ShakaFlagFn = func(*ShakaFlags)
 
 // Responsible for calling Shaka-packager.
-type ShakaRunner struct {
+type ShakaPackager struct {
 	// Location of the binary executable of Shaka-Packager.
 	// Ex: /bin/packager
 	Binary string
@@ -56,19 +55,19 @@ type ShakaRunner struct {
 	StreamOptions []*StreamOptions
 }
 
-func NewRunner(binary string) *ShakaRunner {
+func NewRunner(binary string) *ShakaPackager {
 	if binary == "" {
 		binary = "/bin/packager"
 	}
 
-	return &ShakaRunner{
+	return &ShakaPackager{
 		Binary:        binary,
 		Flags:         &ShakaFlags{},
 		StreamOptions: make([]*StreamOptions, 0),
 	}
 }
 
-func (r *ShakaRunner) BuildAndValidate() ([]string, error) {
+func (r *ShakaPackager) BuildAndValidate() ([]string, error) {
 	args := []string{}
 	validationErrors := []string{}
 
@@ -79,7 +78,7 @@ func (r *ShakaRunner) BuildAndValidate() ([]string, error) {
 				continue
 			}
 
-			args = append(args, opt.String())
+			args = append(args, opt.Parse())
 		}
 	}
 
@@ -89,7 +88,7 @@ func (r *ShakaRunner) BuildAndValidate() ([]string, error) {
 			continue
 		}
 
-		args = append(args, flag.String())
+		args = append(args, flag.Parse())
 	}
 
 	if len(validationErrors) > 0 {
@@ -99,7 +98,7 @@ func (r *ShakaRunner) BuildAndValidate() ([]string, error) {
 	return args, nil
 }
 
-func (r *ShakaRunner) PreviewCommand() (string, error) {
+func (r *ShakaPackager) PreviewCommand() (string, error) {
 	args, err := r.BuildAndValidate()
 	if err != nil {
 		return "", err
@@ -108,7 +107,7 @@ func (r *ShakaRunner) PreviewCommand() (string, error) {
 	return fmt.Sprintf("%s %s", r.Binary, strings.Join(args, " ")), nil
 }
 
-func (r *ShakaRunner) Run() error {
+func (r *ShakaPackager) Run() error {
 	args, err := r.BuildAndValidate()
 	if err != nil {
 		return err
@@ -122,11 +121,11 @@ func (r *ShakaRunner) Run() error {
 
 // Wrapper around a slice of implementations of interface `OptionParser`
 type ShakaFlags struct {
-	Flags []OptionParser
+	Flags []ShakaParser
 }
 
 func NewFlags(opts ...ShakaFlagFn) *ShakaFlags {
-	options := &ShakaFlags{Flags: make([]OptionParser, 0)}
+	options := &ShakaFlags{Flags: make([]ShakaParser, 0)}
 	for _, fn := range opts {
 		fn(options)
 	}
@@ -134,18 +133,18 @@ func NewFlags(opts ...ShakaFlagFn) *ShakaFlags {
 	return options
 }
 
-func (s *ShakaFlags) Add(flag OptionParser) {
+func (s *ShakaFlags) Add(flag ShakaParser) {
 	s.Flags = append(s.Flags, flag)
 }
 
 // Wrapper around a slice of implementations of interface `OptionParser`
 // Both this and `ShakaFlags` type are for isolating and handling both concerns independently
 type StreamOptions struct {
-	Options []OptionParser
+	Options []ShakaParser
 }
 
 func NewStreamDescriptor(opts ...StreamDescriptorFn) *StreamOptions {
-	streamOptions := &StreamOptions{Options: make([]OptionParser, 0)}
+	streamOptions := &StreamOptions{Options: make([]ShakaParser, 0)}
 	for _, fn := range opts {
 		fn(streamOptions)
 	}
@@ -153,6 +152,6 @@ func NewStreamDescriptor(opts ...StreamDescriptorFn) *StreamOptions {
 	return streamOptions
 }
 
-func (s *StreamOptions) Add(option OptionParser) {
+func (s *StreamOptions) Add(option ShakaParser) {
 	s.Options = append(s.Options, option)
 }
