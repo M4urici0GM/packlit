@@ -142,15 +142,15 @@ func main() {
 
 func main() {
     ctx := context.Background()
-	descriptors := buildDescriptors()
-	flags := buildFlags()
+    descriptors := buildDescriptors()
+    flags := buildFlags()
 
-	packager := packlit.NewBuilder().
+    packager := packlit.NewBuilder().
         // ...... Your Options
         Build()
 
-	packagerExecutor := packlit.NewExecutor(packager)
-	result, err := packagerExecutor.Run(ctx); 
+    packagerExecutor := packlit.NewExecutor(packager)
+    result, err := packagerExecutor.Run(ctx); 
     if err != nil {
         log.Fatalf("error when trying to run shaka-packager: %v", err)
     }
