@@ -1,4 +1,4 @@
-#  [!](https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png) Packlit
+#  Packlit
 [![Go](https://github.com/moul/golang-repo-template/workflows/Go/badge.svg)](https://github.com/m4urici0gm/packlit/actions?query=workflow%3AGo)
 [![GitHub License](https://img.shields.io/github/license/m4urici0gm/packlit)](https://github.com/M4urici0GM/packlit/blob/main/LICENSE)
 [![Made By Mauricio Barbosa](https://img.shields.io/badge/made%20by-Mauricio%20Barbosa-blue.svg?style=flat)](https://mourice.dev)
