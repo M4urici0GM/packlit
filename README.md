@@ -137,12 +137,6 @@ func main() {
 Contributions are welcome! If you'd like to contribute, please open an issue or submit a pull request.
 
 ## License
-Packlit is licensed under the MIT License. See LICENSE for more details.
-
-## Acknowledgements
-Packlit is built around the excellent Shaka Packager project.
-
-## License
 ```
 This file is part of Packlit
                                                                      
