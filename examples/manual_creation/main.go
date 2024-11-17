@@ -3,32 +3,32 @@ package main
 import (
 	"log"
 
-	gaka "github.com/m4urici0gm/gaka/pkg"
+	packlit "github.com/m4urici0gm/packlit/pkg"
 )
 
-func buildDescriptors() []*gaka.StreamOptions {
-	return []*gaka.StreamOptions{
+func buildDescriptors() []*packlit.StreamOptions {
+	return []*packlit.StreamOptions{
 		{
-			Options: []gaka.StreamOption{
-				gaka.InputSelector("file.mp4"),
-				gaka.StreamSelector("audio"),
-				gaka.OutputSelector("audio.mp4"),
+			Options: []packlit.StreamOption{
+				packlit.InputSelector("file.mp4"),
+				packlit.StreamSelector("audio"),
+				packlit.OutputSelector("audio.mp4"),
 			},
 		},
 		{
-			Options: []gaka.StreamOption{
-				gaka.InputSelector("file.mp4"),
-				gaka.StreamSelector("video"),
-				gaka.OutputSelector("video.mp4"),
+			Options: []packlit.StreamOption{
+				packlit.InputSelector("file.mp4"),
+				packlit.StreamSelector("video"),
+				packlit.OutputSelector("video.mp4"),
 			},
 		},
 	}
 }
 
-func buildFlags() *gaka.ShakaOptions {
-	return &gaka.ShakaOptions{
-		Flags: []gaka.ShakaFlag{
-			gaka.GenerateStaticLiveMpd{},
+func buildFlags() *packlit.ShakaOptions {
+	return &packlit.ShakaOptions{
+		Flags: []packlit.ShakaFlag{
+			packlit.GenerateStaticLiveMpd{},
 		},
 	}
 }
@@ -37,7 +37,7 @@ func main() {
 	descriptors := buildDescriptors()
 	flags := buildFlags()
 
-	runner := gaka.ShakaRunner{
+	runner := packlit.ShakaRunner{
 		StreamOptions: descriptors,
 		Flags:         flags,
 	}

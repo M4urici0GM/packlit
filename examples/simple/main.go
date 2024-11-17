@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	gaka "github.com/m4urici0gm/gaka/pkg"
+	"github.com/m4urici0gm/packlit/pkg"
 )
 
 func main() {
@@ -12,10 +12,10 @@ func main() {
 	//            in=some_content.mp4,stream=audio,out=audio.mp4 \
     //      --mpd_output=file.mpd
 
-	opts := gaka.NewShakaOptions(gaka.WithMpdOutput("file.mpd"))
-	runner := gaka.NewBuilder().
-		WithStream(gaka.NewStreamDescriptor(gaka.WithInput("some_content.mp4"), gaka.WithStream("video"), gaka.WithOutput("video.mp4"))).
-		WithStream(gaka.NewStreamDescriptor(gaka.WithInput("some_content.mp4"), gaka.WithStream("audio"), gaka.WithOutput("audio.mp4"))).
+	opts := packlit.NewShakaOptions(packlit.WithMpdOutput("file.mpd"))
+	runner := packlit.NewBuilder().
+		WithStream(packlit.NewStreamDescriptor(packlit.WithInput("some_content.mp4"), packlit.WithStream("video"), packlit.WithOutput("video.mp4"))).
+		WithStream(packlit.NewStreamDescriptor(packlit.WithInput("some_content.mp4"), packlit.WithStream("audio"), packlit.WithOutput("audio.mp4"))).
 		WithFlag(opts).
 		Build()
 

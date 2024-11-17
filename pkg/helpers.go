@@ -1,4 +1,4 @@
-package gaka
+package packlit 
 
 
 // Adds option 'input' to the stream descriptor.

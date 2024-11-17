@@ -1,4 +1,4 @@
-package gaka
+package packlit 
 
 import (
 	"testing"

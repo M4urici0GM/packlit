@@ -1,4 +1,4 @@
-package gaka
+package packlit 
 
 import "strings"
 
@@ -12,7 +12,7 @@ func NewStreamDescriptor(opts ...StreamOpt) *StreamOptions {
 }
 
 func NewShakaOptions(opts ...ShakaOpt) *ShakaOptions {
-	options := &ShakaOptions{flags: make([]ShakaFlag, 0)}
+	options := &ShakaOptions{Flags: make([]ShakaFlag, 0)}
 	for _, fn := range opts {
 		fn(options)
 	}
@@ -26,15 +26,15 @@ func NewRunner(binary string) *ShakaRunner {
 	}
 
 	return &ShakaRunner{
-		binary:        binary,
-		flags:         &ShakaOptions{},
-		streamOptions: make([]*StreamOptions, 0),
+		Binary:        binary,
+		Flags:         &ShakaOptions{},
+		StreamOptions: make([]*StreamOptions, 0),
 	}
 }
 
 func buildFlags(flags *ShakaOptions) (string, error) {
 	built := make([]string, 0)
-	for _, flag := range flags.flags {
+	for _, flag := range flags.Flags {
 		if err := flag.Validate(); err != nil {
 			return "", err
 		}
@@ -45,18 +45,18 @@ func buildFlags(flags *ShakaOptions) (string, error) {
 	return strings.Join(built, " "), nil
 }
 
-func buildStreamDescriptors(descriptors ...*StreamOptions) (string, error) {
+func buildStreamDescriptors(descriptors ...*StreamOptions) ([]string, error) {
 	built := make([]string, 0)
 	for _, desc := range descriptors {
 		builtDesc, err := buildStreamDescriptor(desc)
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 
 		built = append(built, builtDesc)
 	}
 
-	return strings.Join(built, " "), nil
+	return built, nil
 }
 
 func (r *ShakaRunner) Run() error {

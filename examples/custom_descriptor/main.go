@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	gaka "github.com/m4urici0gm/gaka/pkg"
+	packlit "github.com/m4urici0gm/packlit/pkg"
 )
 
 type MyCustomDescritor string
@@ -21,8 +21,8 @@ func (m MyCustomDescritor) Validate() error {
 }
 
 // Wrap your custom descriptor into a func.
-func WithCustomDescritpor(val string) gaka.StreamOpt {
-	return func(so *gaka.StreamOptions) {
+func WithCustomDescritpor(val string) packlit.StreamOpt {
+	return func(so *packlit.StreamOptions) {
 		so.Add(MyCustomDescritor(val))
 	}
 }
@@ -31,8 +31,8 @@ func main() {
 	// Equivalent to
 	// $ packager in=some_content.mp4,my_custom_descriptor=some-custom-value
 
-	runner := gaka.NewBuilder().
-		WithStream(gaka.NewStreamDescriptor(gaka.WithInput("input.mp4"), WithCustomDescritpor("some-custom-value"))).
+	runner := packlit.NewBuilder().
+		WithStream(packlit.NewStreamDescriptor(packlit.WithInput("input.mp4"), WithCustomDescritpor("some-custom-value"))).
 		Build()
 
 	if err := runner.Run(); err != nil {
