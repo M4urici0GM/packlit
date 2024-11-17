@@ -21,3 +21,13 @@ $ go get github.com/yourusername/packlit
 ## Prerequisites
 - Shaka Packager installed and available in your system's PATH
 - Go version 1.18 or later
+
+
+## Contributions
+Contributions are welcome! If you'd like to contribute, please open an issue or submit a pull request.
+
+## License
+Packlit is licensed under the MIT License. See LICENSE for more details.
+
+## Acknowledgements
+Packlit is built around the excellent Shaka Packager project.
