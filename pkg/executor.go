@@ -31,14 +31,11 @@ type ShakaExecutor struct {
 
 // Creates new executor.
 // If logger is nil, it will create a new one with prefix [packlit]
-func NewExecutor(shaka *ShakaPackager, logger *log.Logger) *ShakaExecutor {
-	if logger == nil {
-		logger = log.New(os.Stdout, "[packlit] ", log.LstdFlags)
-	}
+func NewExecutor(shaka *ShakaPackager, logger ...*log.Logger) *ShakaExecutor {
 
 	return &ShakaExecutor{
 		shaka:         shaka,
-		logger:        logger,
+		logger:        getLogger(logger...),
 		commandRunner: &NativeCommandRunner{},
 	}
 }
@@ -123,4 +120,12 @@ func (e *ShakaExecutor) runShaka(ctx context.Context, binaryPath string, args []
 	}()
 
 	return cmd.Wait()
+}
+
+func getLogger(logger ...*log.Logger) *log.Logger {
+	if len(logger) != 0 && logger[0] != nil {
+		return logger[0]
+	}
+
+	return log.New(os.Stdout, "[packlit] ", log.LstdFlags)
 }

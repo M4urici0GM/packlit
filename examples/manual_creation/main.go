@@ -41,12 +41,13 @@ func main() {
 	descriptors := buildDescriptors()
 	flags := buildFlags()
 
-	runner := packlit.ShakaPackager{
+	packager := &packlit.ShakaPackager{
 		StreamOptions: descriptors,
 		Flags:         flags,
 	}
 
-	if err := runner.Run(); err != nil {
-		log.Fatalf("error when trying to run shaka-packager: %v", err)
+	packagerExecutor := packlit.NewExecutor(packager)
+	if err := packagerExecutor.Run(); err != nil {
+		log.Fatalf("error when running shaka-packager: %v", err)
 	}
 }

@@ -6,8 +6,6 @@ package packlit
 
 import (
 	"fmt"
-	"os"
-	"os/exec"
 	"strings"
 )
 
@@ -109,18 +107,6 @@ func (r *ShakaPackager) PreviewCommand() (string, error) {
 	}
 
 	return fmt.Sprintf("%s %s", r.Binary, strings.Join(args, " ")), nil
-}
-
-func (r *ShakaPackager) Run() error {
-	args, err := r.BuildAndValidate()
-	if err != nil {
-		return err
-	}
-
-	cmd := exec.Command(r.Binary, args...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	return cmd.Run()
 }
 
 // Wrapper around a slice of implementations of interface `OptionParser`

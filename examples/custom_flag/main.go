@@ -39,7 +39,7 @@ func main() {
 	// $ packager in=some_content.mp4,stream=video,output=video.mp4 \
 	//          --my-custom-flag
 	flags := packlit.NewFlags(WithMyCustomFlag())
-	runner := packlit.NewBuilder().
+	packager := packlit.NewBuilder().
 		WithStream(
 			packlit.NewStreamBuilder().
 				WithInput("some_content.mp4").
@@ -50,7 +50,8 @@ func main() {
 		WithFlag(flags).
 		Build()
 
-	if err := runner.Run(); err != nil {
-		log.Fatalf("error running shaka-packager: %v", err)
+	packagerExecutor := packlit.NewExecutor(packager)
+	if err := packagerExecutor.Run(); err != nil {
+		log.Fatalf("error when running shaka-packager: %v", err)
 	}
 }

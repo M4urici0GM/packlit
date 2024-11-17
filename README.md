@@ -39,14 +39,15 @@ $ packager input=some_content.mp4 --dump_stream_info
 ```go
 func main() {
     opts := packlit.NewShakaOptions(packlit.WithDumpStream())
-    runner := packlit.NewBuilder().
+    packager := packlit.NewBuilder().
         WithStream(packlit.NewStreamDescriptor(packlit.WithInput("some_content.mp4")))).
         WithFlag(opts).
         Build()
 
-    if err := runner.Run(); err != nil {
-        fmt.Fatalf("error when running shaka-packager: %v", err)
-    }
+	packagerExecutor := packlit.NewExecutor(packager)
+	if err := packagerExecutor.Run(); err != nil {
+		log.Fatalf("error when running shaka-packager: %v", err)
+	}
 }
 ```
 
@@ -55,7 +56,7 @@ func main() {
 
 func main() {
 	opts := packlit.NewFlags(packlit.WithMpdOutput("h264.mpd"))
-	runner := packlit.NewBuilder().
+	packager := packlit.NewBuilder().
 		WithStream(
 			packlit.NewStreamBuilder().
 				WithInput("h264_baseline_360p_600.mp4").
@@ -87,7 +88,8 @@ func main() {
 		WithFlag(opts).
 		Build()
 
-	if err := runner.Run(); err != nil {
+	packagerExecutor := packlit.NewExecutor(packager)
+	if err := packagerExecutor.Run(); err != nil {
 		log.Fatalf("error when running shaka-packager: %v", err)
 	}
 }
@@ -123,14 +125,42 @@ func main() {
 	descriptors := buildDescriptors()
 	flags := buildFlags()
 
-	runner := packlit.ShakaRunner{
+	packager := packlit.ShakaRunner{
 		StreamOptions: descriptors,
 		Flags:         flags,
 	}
 
-	if err := runner.Run(); err != nil {
-		log.Fatalf("error when trying to run shaka-packager: %v", err)
+	packagerExecutor := packlit.NewExecutor(packager)
+	if err := packagerExecutor.Run(); err != nil {
+		log.Fatalf("error when running shaka-packager: %v", err)
 	}
+}
+```
+
+- Run Async
+```go
+
+func main() {
+    ctx := context.Background()
+	descriptors := buildDescriptors()
+	flags := buildFlags()
+
+	packager := packlit.NewBuilder().
+        // ...... Your Options
+        Build()
+
+	packagerExecutor := packlit.NewExecutor(packager)
+	result, err := packagerExecutor.Run(ctx); 
+    if err != nil {
+        log.Fatalf("error when trying to run shaka-packager: %v", err)
+    }
+
+    // ..... Do you other stuff
+
+    // Wait for packager to finish.
+    if err := <-result; err != nil {
+        log.Fatalf("error when running shaka-packager: %v", err)
+    }
 }
 ```
 

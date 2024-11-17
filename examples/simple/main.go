@@ -17,7 +17,7 @@ func main() {
 	//      --mpd_output=file.mpd
 
 	opts := packlit.NewFlags(packlit.WithMpdOutput("file.mpd"))
-	runner := packlit.NewBuilder().
+	packager := packlit.NewBuilder().
 		WithStream(
 			packlit.NewStreamBuilder().
 				WithInput("some_content.mp4").
@@ -35,7 +35,8 @@ func main() {
 		WithFlag(opts).
 		Build()
 
-	if err := runner.Run(); err != nil {
-		log.Fatalf("error running shaka-packager: %v", err)
+	packagerExecutor := packlit.NewExecutor(packager)
+	if err := packagerExecutor.Run(); err != nil {
+		log.Fatalf("error when running shaka-packager: %v", err)
 	}
 }

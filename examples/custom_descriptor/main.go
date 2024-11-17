@@ -38,11 +38,12 @@ func main() {
 	// Equivalent to
 	// $ packager in=some_content.mp4,my_custom_descriptor=some-custom-value
 
-	runner := packlit.NewBuilder().
+	packagerArgs := packlit.NewBuilder().
 		WithStream(packlit.NewStreamDescriptor(packlit.WithInput("input.mp4"), WithCustomDescritpor("some-custom-value"))).
 		Build()
 
-	if err := runner.Run(); err != nil {
-		log.Fatalf("error running shaka-packager: %v", err)
+	packagerExecutor := packlit.NewExecutor(packagerArgs)
+	if err := packagerExecutor.Run(); err != nil {
+		log.Fatalf("error when running shaka-packager: %v", err)
 	}
 }
