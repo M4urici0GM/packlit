@@ -106,7 +106,7 @@ func buildDescriptors() []*packlit.StreamOptions {
 func buildFlags() *packlit.ShakaFlags {
 	return &packlit.ShakaFlags{
 		Flags: []packlit.OptionParser{
-			packlit.GenerateStaticLiveMpd{},
+			packlit.MpdOuput("h264.mpd"),
 		},
 	}
 }
