@@ -150,7 +150,7 @@ func main() {
         Build()
 
     packagerExecutor := packlit.NewExecutor(packager)
-    result, err := packagerExecutor.Run(ctx); 
+    result, err := packagerExecutor.RunAsync(ctx); 
     if err != nil {
         log.Fatalf("error when trying to run shaka-packager: %v", err)
     }
