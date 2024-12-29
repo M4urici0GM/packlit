@@ -80,7 +80,7 @@ func (r *ShakaPackager) BuildAndValidate() ([]string, error) {
 		return nil, fmt.Errorf("validation errors: %s", validationErrors)
     }
 
-    args = append(args, flags)
+    args = append(args, ("\\ " + flags))
 
 
 	return args, nil
