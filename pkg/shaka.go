@@ -82,7 +82,6 @@ func (r *ShakaPackager) BuildAndValidate() ([]string, error) {
 
     args = append(args, ("\\ " + flags))
 
-
 	return args, nil
 }
 
