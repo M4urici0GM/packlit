@@ -32,7 +32,6 @@ type ShakaExecutor struct {
 // Creates new executor.
 // If logger is nil, it will create a new one with prefix [packlit]
 func NewExecutor(shaka *ShakaPackager, logger ...*log.Logger) *ShakaExecutor {
-
 	return &ShakaExecutor{
 		shaka:         shaka,
 		logger:        getLogger(logger...),
@@ -54,7 +53,7 @@ func (e *ShakaExecutor) Run() error {
 }
 
 func (e *ShakaExecutor) RunAsync(ctx context.Context) (<-chan error, error) {
-	args, err := e.shaka.BuildAndValidate()
+	args, flags, err := e.shaka.Args()
 	if err != nil {
 		return nil, err
 	}
@@ -69,6 +68,7 @@ func (e *ShakaExecutor) RunAsync(ctx context.Context) (<-chan error, error) {
 			errorChn <- ctx.Err()
 			return
 		default:
+            args = append(args, flags)
 			err := e.runShaka(ctx, e.shaka.Binary, args)
 			if err != nil {
 				errorChn <- err

@@ -8,9 +8,14 @@ type ShakaRunnerBuilder struct {
 	runner *ShakaPackager
 }
 
-func NewBuilder() *ShakaRunnerBuilder {
+func NewBuilder(binary ...string) *ShakaRunnerBuilder {
+    binaryPath := ""
+    if len(binary) > 0 && binary[0] != "" {
+        binaryPath = binary[0]
+    }
+
 	return &ShakaRunnerBuilder{
-		runner: NewShakaPackager(""),
+		runner: NewShakaPackager(binaryPath),
 	}
 }
 
@@ -42,4 +47,3 @@ func (s *ShakaPackager) Args() ([]string, string, error) {
 
 	return streamOptions, flags, nil
 }
-

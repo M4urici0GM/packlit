@@ -76,11 +76,11 @@ func TestShakaExecutorRunError(t *testing.T) {
 	mockRunner.AssertCalled(t, "CommandContext", ctx, mock.Anything, mock.Anything)
 }
 
-func TestShakExecutorRunAsync(t *testing.T) {
+func TestShakaExecutorRunAsync(t *testing.T) {
 	ctx := context.Background()
 
 	mockRunner := &MockCommandRunner{}
-	mockRunner.On("CommandContext", ctx, "mock_binary", []string{}).
+	mockRunner.On("CommandContext", ctx, "mock_binary", []string{""}).
 		Return(exec.Command("echo", "hello world"))
 
 	shaka := NewShakaPackager("mock_binary")
@@ -96,14 +96,14 @@ func TestShakExecutorRunAsync(t *testing.T) {
 	// then
 	require.NoError(t, err)
 	require.NoError(t, <-chn)
-	mockRunner.AssertCalled(t, "CommandContext", ctx, "mock_binary", []string{})
+	mockRunner.AssertCalled(t, "CommandContext", ctx, "mock_binary", []string{""})
 }
 
 func TestShakaExecutorErrorAsync(t *testing.T) {
 	ctx := context.Background()
 
 	mockRunner := &MockCommandRunner{}
-	mockRunner.On("CommandContext", ctx, "shaka-packager", []string{}).
+	mockRunner.On("CommandContext", ctx, "shaka-packager", []string{""}).
 		Return(exec.Command("false"))
 
 	shaka := NewShakaPackager("shaka-packager")
