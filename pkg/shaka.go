@@ -74,14 +74,17 @@ func (r *ShakaPackager) BuildAndValidate() ([]string, error) {
 	validationErrors := []string{}
 
 	for i, stream := range r.StreamOptions {
+        streamDescriptor := []string{}
 		for j, opt := range stream.Options {
 			if err := opt.Validate(); err != nil {
 				validationErrors = append(validationErrors, fmt.Sprintf("stream[%d].option[%d]: %v", i, j, err))
 				continue
 			}
 
-			args = append(args, opt.Parse())
+			streamDescriptor = append(streamDescriptor, opt.Parse())
 		}
+
+        args = append(args, strings.Join(streamDescriptor, ","))
 	}
 
 	for i, flag := range r.Flags.Flags {
