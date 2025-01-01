@@ -25,7 +25,7 @@ func buildStreamDescriptors(descriptors ...*StreamOptions) ([]string, error) {
 	return built, nil
 }
 
-// builds the given stream descritpor into its string version.
+// builds the given stream descriptor into its string version.
 // Se its tests for more information
 func buildStreamDescriptor(descriptor *StreamOptions) (string, error) {
 	flags := make([]string, 0)
@@ -40,7 +40,7 @@ func buildStreamDescriptor(descriptor *StreamOptions) (string, error) {
 	return strings.Join(flags, ","), nil
 }
 
-// input/source media “file” path, which can be regular files, pipes, udp streams.
+// InputSelector input/source media “file” path, which can be regular files, pipes, udp streams.
 // See https://shaka-project.github.io/shaka-packager/html/options/udp_file_options.html on additional options for UDP files.
 type InputSelector string
 
@@ -56,7 +56,7 @@ func (i InputSelector) Validate() error {
 	return nil
 }
 
-// Required field with value ‘audio’, ‘video’, ‘text’ or stream number (zero based).
+// StreamSelector Required field with value ‘audio’, ‘video’, ‘text’ or stream number (zero based).
 type StreamSelector string
 
 func (s StreamSelector) Parse() string {

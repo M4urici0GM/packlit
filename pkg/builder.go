@@ -9,10 +9,10 @@ type ShakaRunnerBuilder struct {
 }
 
 func NewBuilder(binary ...string) *ShakaRunnerBuilder {
-    binaryPath := ""
-    if len(binary) > 0 && binary[0] != "" {
-        binaryPath = binary[0]
-    }
+	binaryPath := ""
+	if len(binary) > 0 && binary[0] != "" {
+		binaryPath = binary[0]
+	}
 
 	return &ShakaRunnerBuilder{
 		runner: NewShakaPackager(binaryPath),
@@ -34,15 +34,15 @@ func (b *ShakaRunnerBuilder) Build() *ShakaPackager {
 	return b.runner
 }
 
-func (s *ShakaPackager) Args() ([]string, string, error) {
+func (s *ShakaPackager) Args() ([]string, []string, error) {
 	streamOptions, err := buildStreamDescriptors(s.StreamOptions...)
 	if err != nil {
-		return nil, "", err
+		return nil, nil, err
 	}
 
 	flags, err := buildFlags(s.Flags)
 	if err != nil {
-		return nil, "", err
+		return nil, nil, err
 	}
 
 	return streamOptions, flags, nil

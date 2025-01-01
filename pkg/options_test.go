@@ -29,6 +29,10 @@ func TestBuildStreamSelector(t *testing.T) {
 	assert.Equal(t, "input=some_content.mp4,stream_selector=video,output=video.mp4", result)
 }
 
+func TestComplexCase(t *testing.T) {
+
+}
+
 func TestInputFormat(t *testing.T) {
 	// given
 	input := InputSelector("file.mp4")
