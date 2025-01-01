@@ -4,42 +4,48 @@
 
 package packlit
 
-// Adds option 'input' to the stream descriptor.
+// WithInput Adds option 'input' to the stream descriptor.
 func WithInput(input string) StreamDescriptorFn {
 	return func(sd *StreamOptions) {
 		sd.Add(InputSelector(input))
 	}
 }
 
-// Adds option 'stream' to the stream descriptor.
+// WithStream Adds option 'stream' to the stream descriptor.
 func WithStream(stream StreamType) StreamDescriptorFn {
 	return func(sd *StreamOptions) {
 		sd.Add(StreamSelector(stream))
 	}
 }
 
-// Adds option 'ouput' to the stream descriptor.
+// WithOutput Adds option 'ouput' to the stream descriptor.
 func WithOutput(output string) func(*StreamOptions) {
 	return func(sd *StreamOptions) {
 		sd.Add(OutputSelector(output))
 	}
 }
 
-// Adds flag '--generate_static_live_mpd' to cmd
-func WithStaticLiveMpd() StreamDescriptorFn {
-	return func(so *StreamOptions) {
-		so.Add(GenerateStaticLiveMpd{})
+// WithStaticLiveMpd Adds flag '--generate_static_live_mpd' to cmd
+func WithStaticLiveMpd() ShakaFlagFn {
+	return func(flags *ShakaFlags) {
+		flags.Add(GenerateStaticLiveMpd{})
 	}
 }
 
-// Adds flag '--mpd_output <name>'
+// WithMpdOutput Adds flag '--mpd_output <name>'
 func WithMpdOutput(output string) func(*ShakaFlags) {
 	return func(so *ShakaFlags) {
 		so.Add(MpdOutput(output))
 	}
 }
 
-// Adds flag '--dump_stream_info'
+func WithApproximateSegmentTimeline() ShakaFlagFn {
+	return func(flags *ShakaFlags) {
+		flags.Add(AllowApproximateSegmentTimeline{})
+	}
+}
+
+// WithDumpStream Adds flag '--dump_stream_info'
 func WithDumpStream() ShakaFlagFn {
 	return func(so *ShakaFlags) {
 		so.Add(DumpStreamInfo{})
