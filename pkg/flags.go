@@ -85,7 +85,7 @@ func (g DumpStreamInfo) Validate() error {
 type BaseUrls []string
 
 func (b BaseUrls) Parse() string {
-    return fmt.Sprintf("--base_urls=\"%s\"", strings.Join(b, ","))
+    return fmt.Sprintf("--base_urls=%s", strings.Join(b, ","))
 }
 
 func (b BaseUrls) Validate() error {
