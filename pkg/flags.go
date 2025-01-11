@@ -6,7 +6,6 @@ package packlit
 
 import (
 	"fmt"
-	"net/url"
 	"strings"
 )
 
