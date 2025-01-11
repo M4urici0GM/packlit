@@ -101,11 +101,5 @@ func (b BaseUrls) Parse() string {
 }
 
 func (b BaseUrls) Validate() error {
-	for _, baseUrl := range b {
-		if _, err := url.ParseRequestURI(baseUrl); err != nil {
-			return err
-		}
-	}
-
-	return nil
+    return nil
 }
