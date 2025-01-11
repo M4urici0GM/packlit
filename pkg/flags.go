@@ -25,17 +25,6 @@ func buildFlags(flags *ShakaFlags) ([]string, error) {
 		}
 
 		built = append(built, flag.Parse())
-
-		//// This is to make sure, flags must be separated with two elements
-		//// instead of one string with the space between.
-		//flagValue := flag.Parse()
-		//groups := strings.Split(flagValue, " ")
-		//if len(groups) < 2 {
-		//	built = append(built, flagValue)
-		//	continue
-		//}
-		//
-		//built = append(built, []string{groups[0], groups[1]}...)
 	}
 
 	return built, nil
@@ -96,7 +85,7 @@ func (g DumpStreamInfo) Validate() error {
 type BaseUrls []string
 
 func (b BaseUrls) Parse() string {
-	return fmt.Sprintf("--base_urls=%s", strings.Join(b, ","))
+    return fmt.Sprintf("--base_urls=\"%s\"", strings.Join(b, ","))
 }
 
 func (b BaseUrls) Validate() error {
