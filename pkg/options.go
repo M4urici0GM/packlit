@@ -128,6 +128,11 @@ type InitSegment string
 
 func (i InitSegment) Validate() error {
 	// Maybe check if the folder exists?
+
+
+
+
+
 	return nil
 }
 
