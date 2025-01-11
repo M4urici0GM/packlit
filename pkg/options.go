@@ -10,6 +10,12 @@ import (
 	"strings"
 )
 
+var (
+	_ ShakaParser = (*SegmentDuration)(nil)
+	_ ShakaParser = (*SegmentTemplate)(nil)
+	_ ShakaParser = (*InitSegment)(nil)
+)
+
 // Build the list of StreamOptions into a slice of strings.
 func buildStreamDescriptors(descriptors ...*StreamOptions) ([]string, error) {
 	built := make([]string, 0)
@@ -94,4 +100,37 @@ func (o OutputSelector) Parse() string {
 
 func (o OutputSelector) Validate() error {
 	return nil
+}
+
+// MAYBE IT SHOULD NOT BE HERE.
+
+type SegmentDuration string
+
+func (s SegmentDuration) Validate() error {
+	return nil
+}
+
+func (s SegmentDuration) Parse() string {
+	return fmt.Sprintf("--segment_duration=%s", s)
+}
+
+type SegmentTemplate string
+
+func (s SegmentTemplate) Validate() error {
+	return nil
+}
+
+func (s SegmentTemplate) Parse() string {
+	return fmt.Sprintf("segment_template=%s", string(s))
+}
+
+type InitSegment string
+
+func (i InitSegment) Validate() error {
+	// Maybe check if the folder exists?
+	return nil
+}
+
+func (i InitSegment) Parse() string {
+	return fmt.Sprintf("init_segment=%s", string(i))
 }

@@ -51,3 +51,27 @@ func WithDumpStream() ShakaFlagFn {
 		so.Add(DumpStreamInfo{})
 	}
 }
+
+func WithSegmentDuration(seconds string) func(*ShakaFlags) {
+	return func(so *ShakaFlags) {
+		so.Add(SegmentDuration(seconds))
+	}
+}
+
+func WithSegmentTemplate(val string) StreamDescriptorFn {
+	return func(options *StreamOptions) {
+		options.Add(SegmentTemplate(val))
+	}
+}
+
+func WithInitSegment(val string) StreamDescriptorFn {
+	return func(options *StreamOptions) {
+		options.Add(InitSegment(val))
+	}
+}
+
+func WithBaseUrls(baseUrls []string) ShakaFlagFn {
+    return func(sf *ShakaFlags) {
+        sf.Add(BaseUrls(baseUrls))
+    }
+}

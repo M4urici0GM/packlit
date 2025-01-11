@@ -6,6 +6,16 @@ package packlit
 
 import (
 	"fmt"
+	"net/url"
+	"strings"
+)
+
+var (
+	_ ShakaParser = (*MpdOutput)(nil)
+	_             = (*AllowApproximateSegmentTimeline)(nil)
+	_             = (*GenerateStaticLiveMpd)(nil)
+	_             = (*DumpStreamInfo)(nil)
+	_             = (*BaseUrls)(nil)
 )
 
 func buildFlags(flags *ShakaFlags) ([]string, error) {
@@ -80,59 +90,22 @@ func (g DumpStreamInfo) Validate() error {
 	return nil
 }
 
-// MAYBE IT SHOULD NOT BE HERE.
+// Comma separated BaseURLs for the MPD:
+// <url>[,<url>]….
+//
+// The values will be added as <BaseURL> element(s) immediately under the <MPD> element.
+type BaseUrls []string
 
-type InitSegment string
-
-type SegmentTemplate string
-
-type SegmentDuration string
-
-var (
-	_ ShakaParser = (*SegmentDuration)(nil)
-	_ ShakaParser = (*SegmentTemplate)(nil)
-	_ ShakaParser = (*InitSegment)(nil)
-)
-
-func (s SegmentDuration) Validate() error {
-	return nil
+func (b BaseUrls) Parse() string {
+	return fmt.Sprintf("--base_urls=%s", strings.Join(b, ","))
 }
 
-func (s SegmentDuration) Parse() string {
-	return fmt.Sprintf("--segment_duration=%s", s)
-}
-
-func (s SegmentTemplate) Validate() error {
-	return nil
-}
-
-func (s SegmentTemplate) Parse() string {
-	return fmt.Sprintf("segment_template=%s", string(s))
-}
-
-func (i InitSegment) Validate() error {
-	// Maybe check if the folder exists?
-	return nil
-}
-
-func (i InitSegment) Parse() string {
-	return fmt.Sprintf("init_segment=%s", string(i))
-}
-
-func WithInitSegment(val string) StreamDescriptorFn {
-	return func(options *StreamOptions) {
-		options.Add(InitSegment(val))
+func (b BaseUrls) Validate() error {
+	for _, baseUrl := range b {
+		if _, err := url.ParseRequestURI(baseUrl); err != nil {
+			return err
+		}
 	}
-}
 
-func WithSegmentTemplate(val string) StreamDescriptorFn {
-	return func(options *StreamOptions) {
-		options.Add(SegmentTemplate(val))
-	}
-}
-
-func WithSegmentDuration(seconds string) func(*ShakaFlags) {
-	return func(so *ShakaFlags) {
-		so.Add(SegmentDuration(seconds))
-	}
+	return nil
 }
