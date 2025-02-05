@@ -15,6 +15,14 @@ var (
 	_             = (*GenerateStaticLiveMpd)(nil)
 	_             = (*DumpStreamInfo)(nil)
 	_             = (*BaseUrls)(nil)
+	_             = (*UserAgentFlag)(nil)
+	_             = (*CaFileFlag)(nil)
+	_             = (*ClientCertFileFlag)(nil)
+	_             = (*ClientCertPrivateKeyFileFlag)(nil)
+	_             = (*ClientCertPrivateKeyPasswordFlag)(nil)
+	_             = (*DisablePeerVerificationFlag)(nil)
+	_             = (*IgnoreHttpOutputFailuresFlag)(nil)
+	_             = (*IoCacheSizeFlag)(nil)
 )
 
 func buildFlags(flags *ShakaFlags) ([]string, error) {
@@ -85,9 +93,9 @@ func (g DumpStreamInfo) Validate() error {
 type BaseUrls []string
 
 func (b BaseUrls) Parse() string {
-    return fmt.Sprintf("--base_urls=%s", strings.Join(b, ","))
+	return fmt.Sprintf("--base_urls=%s", strings.Join(b, ","))
 }
 
 func (b BaseUrls) Validate() error {
-    return nil
+	return nil
 }
