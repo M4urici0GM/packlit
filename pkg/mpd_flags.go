@@ -7,7 +7,6 @@ import (
 
 var (
 	_ ShakaParser = (*OutputMediaInfoFlag)(nil)
-	_ ShakaParser = (*MpdOutputFlag)(nil)
 	_ ShakaParser = (*BaseUrlsFlag)(nil)
 	_ ShakaParser = (*MinBufferTimeFlag)(nil)
 	_ ShakaParser = (*MinimumUpdatePeriodFlag)(nil)

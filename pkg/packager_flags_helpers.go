@@ -1,12 +1,5 @@
 package packlit
 
-// WithDumpStreamInfoFlag Adds flag '--dump_stream_info'
-func WithDumpStreamInfoFlag() ShakaFlagFn {
-	return func(so *ShakaFlags) {
-		so.Add(DumpStreamInfoFlag{})
-	}
-}
-
 // WithLicensesFlag Adds flag '--licenses'
 func WithLicensesFlag() ShakaFlagFn {
 	return func(so *ShakaFlags) {
