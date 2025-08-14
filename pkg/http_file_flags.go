@@ -2,6 +2,17 @@ package packlit
 
 import "fmt"
 
+var (
+	_ ShakaParser = (*UserAgentFlag)(nil)
+	_ ShakaParser = (*CaFileFlag)(nil)
+	_ ShakaParser = (*ClientCertFileFlag)(nil)
+	_ ShakaParser = (*ClientCertPrivateKeyFileFlag)(nil)
+	_ ShakaParser = (*ClientCertPrivateKeyPasswordFlag)(nil)
+	_ ShakaParser = (*DisablePeerVerificationFlag)(nil)
+	_ ShakaParser = (*IgnoreHttpOutputFailuresFlag)(nil)
+	_ ShakaParser = (*IoCacheSizeFlag)(nil)
+)
+
 // UserAgentFlag represents the flag for setting a custom User-Agent string for HTTP requests.
 type UserAgentFlag string
 
