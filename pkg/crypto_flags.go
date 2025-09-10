@@ -27,6 +27,10 @@ func (p CryptByteBlockFlag) Parse() string {
 // Apply to video streams with 'cbcs' and 'cens' protection schemes only;
 // ignored otherwise.
 func (p CryptByteBlockFlag) Validate() error {
+	if p < 0 {
+		return fmt.Errorf("crypt_byte_block cannot be negative: %d", p)
+	}
+
 	return nil
 }
 
@@ -57,6 +61,10 @@ func (s SkipByteBlockFlag) Parse() string {
 // Apply to video streams with 'cbcs' and 'cens' protection schemes only;
 // ignored otherwise.
 func (s SkipByteBlockFlag) Validate() error {
+	if s < 0 {
+		return fmt.Errorf("skip_byte_block cannot be negative: %d", s)
+	}
+
 	return nil
 }
 

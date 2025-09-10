@@ -22,9 +22,9 @@ func WithHLSKeyURIFlag(val string) ShakaFlagFn {
 }
 
 // WithHLSPlaylistTypeFlag Adds flag '--hls_playlist_type <VOD|EVENT|LIVE>'
-func WithHLSPlaylistTypeFlag(val HLSPlaylistTypeFlag) ShakaFlagFn {
+func WithHLSPlaylistTypeFlag(val string) ShakaFlagFn {
 	return func(so *ShakaFlags) {
-		so.Add(val)
+		so.Add(HLSPlaylistTypeFlag(val))
 	}
 }
 

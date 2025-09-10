@@ -23,6 +23,10 @@ func (t TimeShiftBufferDepthFlag) Parse() string {
 // Validate checks if the value of TimeShiftBufferDepth is valid.
 // The value should be a positive duration in seconds.
 func (t TimeShiftBufferDepthFlag) Validate() error {
+	if t < 0 {
+		return fmt.Errorf("time_shift_buffer_depth cannot be negative: %f", t)
+	}
+
 	return nil
 }
 
@@ -37,6 +41,10 @@ func (p PreservedSegmentsOutsideLiveWindowFlag) Parse() string {
 // Validate checks if the value of PreservedSegmentsOutsideLiveWindow is valid.
 // The value must be non-negative.
 func (p PreservedSegmentsOutsideLiveWindowFlag) Validate() error {
+	if p < 0 {
+		return fmt.Errorf("preserved_segments_outside_live_window cannot be negative: %d", p)
+	}
+
 	return nil
 }
 

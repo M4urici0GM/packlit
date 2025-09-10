@@ -88,6 +88,10 @@ func (h HLSMediaSequenceNumberFlag) Parse() string {
 
 // Validate checks if the value of HLSMediaSequenceNumber is valid.
 func (h HLSMediaSequenceNumberFlag) Validate() error {
+	if h < 0 {
+		return fmt.Errorf("hls_media_sequence_number cannot be negative: %d", h)
+	}
+
 	return nil
 }
 

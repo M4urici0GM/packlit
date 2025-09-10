@@ -57,6 +57,10 @@ func (m MinBufferTimeFlag) Parse() string {
 
 // Validate checks if the MinBufferTime value is valid.
 func (m MinBufferTimeFlag) Validate() error {
+	if m < 0 {
+		return fmt.Errorf("min_buffer_time cannot be negative: %f", m)
+	}
+
 	return nil
 }
 
@@ -70,6 +74,10 @@ func (m MinimumUpdatePeriodFlag) Parse() string {
 
 // Validate checks if the MinimumUpdatePeriod value is valid.
 func (m MinimumUpdatePeriodFlag) Validate() error {
+	if m < 0 {
+		return fmt.Errorf("minimum_update_period cannot be negative: %f", m)
+	}
+
 	return nil
 }
 
@@ -83,7 +91,10 @@ func (s SuggestedPresentationDelayFlag) Parse() string {
 
 // Validate checks if the SuggestedPresentationDelay value is valid.
 func (s SuggestedPresentationDelayFlag) Validate() error {
-	// Placeholder validation logic. It could be any required check.
+	if s < 0 {
+		return fmt.Errorf("suggested_presentation_delay cannot be negative: %f", s)
+	}
+
 	return nil
 }
 

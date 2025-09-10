@@ -42,9 +42,9 @@ func WithVModuleFlag(value string) ShakaFlagFn {
 	}
 }
 
-// WithVModuleFlag Adds flag '--version'
-func WithVersionFlag(value string) ShakaFlagFn {
+// WithVersionFlag Adds flag '--version'
+func WithVersionFlag() ShakaFlagFn {
 	return func(so *ShakaFlags) {
-		so.Add(VModuleFlag(value))
+		so.Add((VersionFlag{}))
 	}
 }
